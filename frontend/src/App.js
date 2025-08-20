@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from '../Pages/Layout';
-import Dashboard from '../Pages/Dashboard';
-import Portfolio from '../Pages/Portfolio';
-import Opportunities from '../Pages/Opportunities';
-import TenderAnalysis from '../Pages/TenderAnalysis';
-import Integrations from '../Pages/Integrations';
-import AgentSettings from '../Pages/AgentSettings';
+import Layout from '../../Pages/Layout';
+import Dashboard from '../../Pages/Dashboard';
+import Portfolio from '../../Pages/Portfolio';
+import Opportunities from '../../Pages/Opportunities';
+import TenderAnalysis from '../../Pages/TenderAnalysis';
+import Integrations from '../../Pages/Integrations';
+import AgentSettings from '../../Pages/AgentSettings';
 import './App.css';
 
 function App() {
