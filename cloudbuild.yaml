@@ -5,9 +5,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/tendermatch-backend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:$BUILD_ID'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/tendermatch-backend:latest'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:latest'
       - './backend'
     id: 'build-backend'
 
@@ -16,9 +16,9 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/tendermatch-frontend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:$BUILD_ID'
       - '-t'
-      - 'gcr.io/$PROJECT_ID/tendermatch-frontend:latest'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:latest'
       - './frontend'
     id: 'build-frontend'
 
@@ -26,7 +26,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/tendermatch-backend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:$BUILD_ID'
     id: 'push-backend'
     waitFor: ['build-backend']
 
@@ -34,7 +34,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/$PROJECT_ID/tendermatch-frontend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:$BUILD_ID'
     id: 'push-frontend'
     waitFor: ['build-frontend']
 
@@ -46,7 +46,7 @@ steps:
       - 'deploy'
       - 'tendermatch-backend'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/tendermatch-backend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:$BUILD_ID'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -73,7 +73,7 @@ steps:
       - 'deploy'
       - 'tendermatch-frontend'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/tendermatch-frontend:$BUILD_ID'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:$BUILD_ID'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -96,5 +96,5 @@ options:
   machineType: 'E2_HIGHCPU_8'
   
 images:
-  - 'gcr.io/$PROJECT_ID/tendermatch-backend:$BUILD_ID'
-  - 'gcr.io/$PROJECT_ID/tendermatch-frontend:$BUILD_ID'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:$BUILD_ID'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:$BUILD_ID'
