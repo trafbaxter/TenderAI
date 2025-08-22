@@ -24,5 +24,5 @@ ENV PORT=8080
 # Expose port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:$PORT", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornWorker", "--timeout", "120", "--preload", "main:app"]
+# Command to run the application  
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT --workers 1 --worker-class uvicorn.workers.UvicornWorker --timeout 120 --preload main:app"]
