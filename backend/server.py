@@ -203,6 +203,9 @@ async def health_check():
 # Agent Config endpoints
 @app.post("/api/agent-config", response_model=AgentConfigModel)
 async def create_agent_config(config: AgentConfigModel):
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
     doc_id = generate_id()
     config_data = prepare_for_firestore(config.dict())
     
@@ -213,6 +216,9 @@ async def create_agent_config(config: AgentConfigModel):
 
 @app.get("/api/agent-config/{config_id}", response_model=AgentConfigModel)
 async def get_agent_config(config_id: str):
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
     doc = db.collection('agent_configs').document(config_id).get()
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Agent config not found")
@@ -220,7 +226,10 @@ async def get_agent_config(config_id: str):
 
 @app.get("/api/agent-config", response_model=List[AgentConfigModel])
 async def list_agent_configs():
-    docs = db.collection('agent_configs').order_by('created_at', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).stream()
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
+    docs = db.collection('agent_configs').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
     return [serialize_document(doc) for doc in docs]
 
 # Tender endpoints
