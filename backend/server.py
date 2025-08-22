@@ -20,8 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Firestore client
-db = firestore.Client()
+# Initialize Firestore client with error handling
+try:
+    db = firestore.Client()
+except Exception as e:
+    print(f"Warning: Firestore client initialization failed: {e}")
+    # Create a mock client for development
+    db = None
 
 # Pydantic models based on entity schemas
 
