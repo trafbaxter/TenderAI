@@ -54,10 +54,64 @@ app.add_middleware(
 # Initialize Firestore client with error handling
 try:
     db = firestore.Client()
+    print("✅ Firestore client initialized successfully")
 except Exception as e:
-    print(f"Warning: Firestore client initialization failed: {e}")
-    # Create a mock client for development
-    db = None
+    print(f"⚠️  Warning: Firestore client initialization failed: {e}")
+    print("🔧 Using mock database for local development")
+    
+    # Create a simple mock database for development/testing
+    class MockDocument:
+        def __init__(self, doc_id, data):
+            self.id = doc_id
+            self._data = data
+            self.exists = True
+            
+        def to_dict(self):
+            return self._data.copy()
+            
+        def get(self):
+            return self
+            
+        def set(self, data):
+            self._data.update(data)
+            
+        def update(self, data):
+            self._data.update(data)
+            
+        def delete(self):
+            self.exists = False
+    
+    class MockCollection:
+        def __init__(self):
+            self.documents = {}
+            
+        def document(self, doc_id):
+            if doc_id not in self.documents:
+                self.documents[doc_id] = MockDocument(doc_id, {})
+            return self.documents[doc_id]
+            
+        def where(self, field, op, value):
+            return self
+            
+        def order_by(self, field, direction=None):
+            return self
+            
+        def limit(self, count):
+            return self
+            
+        def stream(self):
+            return [doc for doc in self.documents.values() if doc.exists]
+    
+    class MockFirestore:
+        def __init__(self):
+            self.collections = {}
+            
+        def collection(self, name):
+            if name not in self.collections:
+                self.collections[name] = MockCollection()
+            return self.collections[name]
+    
+    db = MockFirestore()
 
 # Pydantic models based on entity schemas
 
