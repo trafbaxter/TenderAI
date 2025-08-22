@@ -362,7 +362,7 @@ async def list_portfolio_items(
     if status:
         query = query.where('status', '==', status.value)
     
-    query = query.order_by('created_at', direction=firestore.Query.DESCENDING).limit(limit)
+    query = query.order_by('created_at', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).limit(limit)
     docs = query.stream()
     
     return [serialize_document(doc) for doc in docs]
