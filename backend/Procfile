@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:$PORT --workers 4 --worker-class uvicorn.workers.UvicornWorker server:app
+web: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 --worker-class uvicorn.workers.UvicornWorker --preload main:app
