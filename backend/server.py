@@ -409,7 +409,7 @@ async def list_meetings(
     if tender_id:
         query = query.where('tender_id', '==', tender_id)
     
-    query = query.order_by('start_time', direction=firestore.Query.DESCENDING).limit(limit)
+    query = query.order_by('start_time', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).limit(limit)
     docs = query.stream()
     
     return [serialize_document(doc) for doc in docs]
