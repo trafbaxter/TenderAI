@@ -12,7 +12,7 @@ from typing import Dict, Any, List
 import uuid
 
 # Configuration
-BASE_URL = "https://gcp-migration.preview.emergentagent.com"
+BASE_URL = "http://localhost:8001"
 API_BASE = f"{BASE_URL}/api"
 
 class TenderMatchAPITester:
