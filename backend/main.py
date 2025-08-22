@@ -12,15 +12,19 @@ if current_dir not in sys.path:
 
 try:
     from server import app
+    print("[MAIN] Successfully imported FastAPI app from server module")
     
     # Make app available at module level for Gunicorn and other WSGI servers
     application = app
     
     # Also make it available as 'app' for compatibility
     app = app
+    print("[MAIN] App variables configured for WSGI deployment")
     
 except ImportError as e:
-    print(f"Error importing server module: {e}")
+    error_msg = f"Server module import failed: {e}"
+    print(f"[MAIN] Error importing server module: {e}")
+    print("[MAIN] Creating fallback FastAPI app")
     # Create a minimal fallback app
     from fastapi import FastAPI
     app = FastAPI()
@@ -28,7 +32,11 @@ except ImportError as e:
     
     @app.get("/")
     def root():
-        return {"status": "error", "message": "Server module import failed"}
+        return {"status": "error", "message": error_msg}
+
+    @app.get("/health")
+    def health():
+        return {"status": "error", "message": error_msg}
 
 if __name__ == "__main__":
     import uvicorn

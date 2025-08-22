@@ -61,7 +61,7 @@ steps:
       - '--max-instances'
       - '10'
       - '--set-env-vars'
-      - 'GOOGLE_CLOUD_PROJECT=$PROJECT_ID'
+      - 'GOOGLE_CLOUD_PROJECT=$PROJECT_ID,PORT=8080'
     id: 'deploy-backend'
     waitFor: ['push-backend']
 
