@@ -56,8 +56,8 @@ class TenderMatchAPITester:
             response = self.session.get(BASE_URL)
             if response.status_code == 200:
                 data = response.json()
-                if "message" in data and "TenderMatch AI API" in data["message"]:
-                    self.log_test("GET / (root endpoint)", True, f"Status: {response.status_code}, Message: {data.get('message')}")
+                if "status" in data and data["status"] == "healthy":
+                    self.log_test("GET / (root endpoint)", True, f"Status: {response.status_code}, Health: {data.get('status')}")
                 else:
                     self.log_test("GET / (root endpoint)", False, f"Unexpected response format", data)
             else:
