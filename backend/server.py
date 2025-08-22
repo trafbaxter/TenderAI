@@ -8,8 +8,13 @@ from enum import Enum
 import uuid
 import os
 
+print(f"[STARTUP] Server module loading...")
+print(f"[STARTUP] Current working directory: {os.getcwd()}")
+print(f"[STARTUP] PORT environment variable: {os.environ.get('PORT', 'Not set')}")
+
 # Initialize FastAPI app
 app = FastAPI(title="TenderMatch AI API", version="1.0.0")
+print(f"[STARTUP] FastAPI app created successfully")
 
 # CORS configuration
 app.add_middleware(
