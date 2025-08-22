@@ -16,6 +16,32 @@ print(f"[STARTUP] PORT environment variable: {os.environ.get('PORT', 'Not set')}
 app = FastAPI(title="TenderMatch AI API", version="1.0.0")
 print(f"[STARTUP] FastAPI app created successfully")
 
+# Health check endpoint
+@app.get("/")
+def health_check():
+    """Health check endpoint for load balancers and monitoring"""
+    return {
+        "status": "healthy",
+        "service": "TenderMatch AI API",
+        "version": "1.0.0",
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.get("/health")
+def detailed_health_check():
+    """Detailed health check with system status"""
+    return {
+        "status": "healthy",
+        "service": "TenderMatch AI API", 
+        "version": "1.0.0",
+        "database": "connected" if db else "disconnected",
+        "timestamp": datetime.now().isoformat(),
+        "environment": {
+            "port": os.environ.get("PORT", "not-set"),
+            "project": os.environ.get("GOOGLE_CLOUD_PROJECT", "not-set")
+        }
+    }
+
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
