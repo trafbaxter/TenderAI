@@ -12,7 +12,7 @@ from typing import Dict, Any, List
 import uuid
 
 # Configuration
-BASE_URL = "http://localhost:8002"
+BASE_URL = "https://cloudrun-fix.preview.emergentagent.com"
 API_BASE = f"{BASE_URL}/api"
 
 class TenderMatchAPITester:
