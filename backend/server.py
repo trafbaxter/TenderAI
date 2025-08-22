@@ -30,14 +30,11 @@ def health_check():
 @app.get("/health")
 def detailed_health_check():
     """Detailed health check with system status"""
-    # Check if we're using real Firestore or mock
-    db_status = "connected" if hasattr(db, 'collection') and not hasattr(db, 'collections') else "mock"
-    
     return {
         "status": "healthy",
         "service": "TenderMatch AI API", 
         "version": "1.0.0",
-        "database": db_status,
+        "database": "connected" if FIRESTORE_AVAILABLE else "disconnected",
         "timestamp": datetime.now().isoformat(),
         "environment": {
             "port": os.environ.get("PORT", "not-set"),
