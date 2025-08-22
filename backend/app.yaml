@@ -1,8 +1,0 @@
-runtime: python311
-
-env_variables:
-  GOOGLE_CLOUD_PROJECT: tenderai-469603
-
-automatic_scaling:
-  min_instances: 0
-  max_instances: 10
