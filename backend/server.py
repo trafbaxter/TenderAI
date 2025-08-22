@@ -105,9 +105,13 @@ except Exception as e:
         def stream(self):
             return [doc for doc in self.documents.values() if doc.exists]
     
+    class MockQuery:
+        DESCENDING = "desc"
+    
     class MockFirestore:
         def __init__(self):
             self.collections = {}
+            self.Query = MockQuery
             
         def collection(self, name):
             if name not in self.collections:
