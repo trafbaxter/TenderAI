@@ -34,7 +34,7 @@ def detailed_health_check():
         "status": "healthy",
         "service": "TenderMatch AI API", 
         "version": "1.0.0",
-        "database": "connected" if db else "disconnected",
+        "database": "connected" if FIRESTORE_AVAILABLE else "disconnected",
         "timestamp": datetime.now().isoformat(),
         "environment": {
             "port": os.environ.get("PORT", "not-set"),
@@ -54,10 +54,13 @@ app.add_middleware(
 # Initialize Firestore client with error handling
 try:
     db = firestore.Client()
+    print("✅ Firestore client initialized successfully")
+    FIRESTORE_AVAILABLE = True
 except Exception as e:
-    print(f"Warning: Firestore client initialization failed: {e}")
-    # Create a mock client for development
+    print(f"⚠️  Warning: Firestore client initialization failed: {e}")
+    print("🔧 API will return appropriate errors for database operations")
     db = None
+    FIRESTORE_AVAILABLE = False
 
 # Pydantic models based on entity schemas
 
@@ -200,6 +203,9 @@ async def health_check():
 # Agent Config endpoints
 @app.post("/api/agent-config", response_model=AgentConfigModel)
 async def create_agent_config(config: AgentConfigModel):
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
     doc_id = generate_id()
     config_data = prepare_for_firestore(config.dict())
     
@@ -210,6 +216,9 @@ async def create_agent_config(config: AgentConfigModel):
 
 @app.get("/api/agent-config/{config_id}", response_model=AgentConfigModel)
 async def get_agent_config(config_id: str):
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
     doc = db.collection('agent_configs').document(config_id).get()
     if not doc.exists:
         raise HTTPException(status_code=404, detail="Agent config not found")
@@ -217,6 +226,9 @@ async def get_agent_config(config_id: str):
 
 @app.get("/api/agent-config", response_model=List[AgentConfigModel])
 async def list_agent_configs():
+    if not FIRESTORE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Database service unavailable - Firestore not connected")
+    
     docs = db.collection('agent_configs').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
     return [serialize_document(doc) for doc in docs]
 
@@ -252,7 +264,7 @@ async def list_tenders(
     if min_match_score:
         query = query.where('match_score', '>=', min_match_score)
     
-    query = query.order_by('created_at', direction=firestore.Query.DESCENDING).limit(limit)
+    query = query.order_by('created_at', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).limit(limit)
     docs = query.stream()
     
     return [serialize_document(doc) for doc in docs]
@@ -301,7 +313,7 @@ async def list_portfolio_items(
     if status:
         query = query.where('status', '==', status.value)
     
-    query = query.order_by('created_at', direction=firestore.Query.DESCENDING).limit(limit)
+    query = query.order_by('created_at', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).limit(limit)
     docs = query.stream()
     
     return [serialize_document(doc) for doc in docs]
@@ -348,7 +360,7 @@ async def list_meetings(
     if tender_id:
         query = query.where('tender_id', '==', tender_id)
     
-    query = query.order_by('start_time', direction=firestore.Query.DESCENDING).limit(limit)
+    query = query.order_by('start_time', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).limit(limit)
     docs = query.stream()
     
     return [serialize_document(doc) for doc in docs]
