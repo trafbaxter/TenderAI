@@ -278,7 +278,7 @@ async def get_agent_config(config_id: str):
 
 @app.get("/api/agent-config", response_model=List[AgentConfigModel])
 async def list_agent_configs():
-    docs = db.collection('agent_configs').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
+    docs = db.collection('agent_configs').order_by('created_at', direction=getattr(db, 'Query', type('', (), {'DESCENDING': 'desc'})).DESCENDING).stream()
     return [serialize_document(doc) for doc in docs]
 
 # Tender endpoints
