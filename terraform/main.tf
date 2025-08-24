@@ -50,6 +50,17 @@ resource "google_project_service" "required_apis" {
   disable_dependent_services = true
 }
 
+# Create Artifact Registry repository
+resource "google_artifact_registry_repository" "tendermatch_repo" {
+  location      = var.region
+  project       = var.project_id
+  repository_id = "tendermatch"
+  description   = "Docker repository for TenderMatch AI application images"
+  format        = "DOCKER"
+
+  depends_on = [google_project_service.required_apis]
+}
+
 # Create Firestore database
 resource "google_firestore_database" "database" {
   project     = var.project_id
