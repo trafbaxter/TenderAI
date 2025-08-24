@@ -6,7 +6,7 @@
 set -e  # Exit on any error
 
 # Configuration
-PROJECT_ID=""
+PROJECT_ID="${PROJECT_ID:-}"  # Use environment variable if set, otherwise empty
 REGION="us-central1"
 FRONTEND_SERVICE="tendermatch-frontend"
 BACKEND_SERVICE="tendermatch-backend"
