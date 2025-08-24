@@ -128,7 +128,7 @@ REACT_APP_ENVIRONMENT=production
 EOF
     
     print_status "Submitting build to Cloud Build..."
-    gcloud builds submit --config=cloudbuild.yaml --project="$PROJECT_ID"
+    gcloud builds submit --config=cloudbuild.yaml . --project="$PROJECT_ID"
     
     print_success "Deployment completed successfully!"
 }
