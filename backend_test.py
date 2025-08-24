@@ -11,7 +11,7 @@ from datetime import datetime, date, timedelta
 from typing import Dict, Any, List
 import uuid
 
-# Configuration
+# Configuration - Use local URL since backend is running locally
 BASE_URL = "http://localhost:8001"
 API_BASE = f"{BASE_URL}/api"
 
