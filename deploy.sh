@@ -197,6 +197,9 @@ main() {
     # Set up Firestore
     setup_firestore
     
+    # Set up Artifact Registry
+    setup_artifact_registry
+    
     # Deploy with Cloud Build
     deploy_with_cloud_build
     
