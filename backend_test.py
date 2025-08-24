@@ -11,8 +11,8 @@ from datetime import datetime, date, timedelta
 from typing import Dict, Any, List
 import uuid
 
-# Configuration
-BASE_URL = "http://localhost:8001"
+# Configuration - Use production URL from frontend/.env
+BASE_URL = "https://gcrun-tendermatch.preview.emergentagent.com"
 API_BASE = f"{BASE_URL}/api"
 
 class TenderMatchAPITester:
