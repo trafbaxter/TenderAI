@@ -1,5 +1,8 @@
 # Ignore node_modules in frontend but allow package.json and yarn.lock
 frontend/node_modules/
+# Allow essential files explicitly
+!frontend/package.json
+!frontend/yarn.lock
 # Ignore git files
 .git/
 .gitignore
@@ -27,7 +30,7 @@ Thumbs.db
 # Ignore markdown files (but keep README.md)
 *.md
 !README.md
-# Ignore terraform state
+# Ignore terraform state (but not yarn.lock)
 terraform/.terraform/
 terraform/terraform.tfstate*
 terraform/.terraform.lock.hcl
