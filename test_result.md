@@ -136,8 +136,15 @@ After deployment, verify the logs show Docker image path (`us-central1-docker.pk
 ## Next Steps
 1. ✅ Test backend API functionality - COMPLETED
 2. ✅ Fix deployment pipeline issue - COMPLETED  
-3. 🔄 **READY FOR DEPLOYMENT** - User should deploy using above instructions
-4. Ask user permission for frontend testing after successful deployment
+3. 🔧 **CREATE ARTIFACT REGISTRY REPOSITORY** - READY TO DEPLOY
+   - Added terraform configuration for `tendermatch` repository
+   - Updated deploy script with automatic repository creation
+   - Created setup guide with multiple deployment options
+4. 🚀 **DEPLOY TO GOOGLE CLOUD** - Use one of three methods:
+   - `PROJECT_ID=tenderai-469603 ./deploy.sh` (Recommended - automatic)
+   - Manual gcloud commands (see ARTIFACT_REGISTRY_SETUP.md)
+   - Terraform apply with project_id=tenderai-469603
+5. Ask user permission for frontend testing after successful deployment
 
 ## Agent Communication
 - **Testing Agent**: Backend API testing completed successfully. All 19 endpoints tested with 100% pass rate. API structure, response formats, and error handling are working correctly. Firestore authentication issue is expected in local environment and will resolve in Cloud Run deployment.
