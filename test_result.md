@@ -100,44 +100,61 @@ This section contains communication protocol for testing sub-agents:
 - **Integration Tests**: ✅ READY - Both services running locally and ready for deployment
 
 ## Incorporate User Feedback
-- User confirmed plan to fix deployment issue first
-- No additional features requested until deployment is working
+- User confirmed plan to fix deployment issue and proceed with phases
+- Ready to create Artifact Registry repository and deploy
+- Infrastructure solutions provided (terraform + deploy script)
 - MongoDB requirements deferred (using Firestore instead)
 
-## ⚠️ DEPLOYMENT ISSUE RESOLVED
+## ⚠️ ARTIFACT REGISTRY REPOSITORY MISSING - SOLUTION PROVIDED
 
 ### **Root Cause Identified**
-The persistent "ModuleNotFoundError: No module named 'main'" was caused by a **deployment method conflict**:
+Cloud Build deployment fails at the image push stage because:
 
-- **Problem**: The presence of `Procfile` was triggering Google Cloud's source-based deployment (buildpacks) instead of our Docker-based deployment
-- **Evidence**: Cloud Run logs showed deployment from `us-east4-docker.pkg.dev/.../cloud-run-source-deploy/` (buildpacks) instead of `us-central1-docker.pkg.dev` (Docker)
-- **Impact**: All Docker fixes were being bypassed because the wrong deployment method was being used
+- **Problem**: The `tendermatch` Artifact Registry repository doesn't exist in `us-central1`
+- **Evidence**: Error "name unknown: Repository 'tendermatch' not found"
+- **Impact**: Docker images build successfully but can't be stored, preventing Cloud Run deployment
 
-### **Fix Applied** ✅
-- Removed conflicting files: `Procfile`, `runtime.txt`, `app.py`
-- Now only Docker-based deployment files remain: `Dockerfile`, `main.py`, `server.py`
-- This forces Cloud Run to use our custom Docker build configuration from `cloudbuild.yaml`
+### **Solutions Implemented** ✅
+1. **Updated terraform configuration** - Added `google_artifact_registry_repository` resource
+2. **Enhanced deploy script** - Added automatic repository creation and Docker auth
+3. **Created setup guide** - Multiple deployment options in `ARTIFACT_REGISTRY_SETUP.md`
 
 ### **Deployment Instructions**
-To deploy the fixed application:
+Choose one of these methods to create the repository and deploy:
 
-1. **Using Cloud Build (Recommended)**:
-   ```bash
-   gcloud builds submit --config=cloudbuild.yaml --project=tenderai-469603
-   ```
+#### Method 1: Automated Deploy Script (Recommended)
+```bash
+PROJECT_ID=tenderai-469603 ./deploy.sh
+```
 
-2. **Using Deploy Script**:
-   ```bash
-   PROJECT_ID=tenderai-469603 ./deploy.sh
-   ```
+#### Method 2: Terraform Infrastructure as Code  
+```bash
+cd terraform
+terraform init
+terraform apply -var="project_id=tenderai-469603"
+```
 
-After deployment, verify the logs show Docker image path (`us-central1-docker.pkg.dev`) instead of buildpack path.
+#### Method 3: Manual Repository Creation
+```bash
+gcloud artifacts repositories create tendermatch \
+    --repository-format=docker \
+    --location=us-central1 \
+    --project=tenderai-469603
+gcloud builds submit --config=cloudbuild.yaml --project=tenderai-469603
+```
 
 ## Next Steps
 1. ✅ Test backend API functionality - COMPLETED
 2. ✅ Fix deployment pipeline issue - COMPLETED  
-3. 🔄 **READY FOR DEPLOYMENT** - User should deploy using above instructions
-4. Ask user permission for frontend testing after successful deployment
+3. 🔧 **CREATE ARTIFACT REGISTRY REPOSITORY** - READY TO DEPLOY
+   - Added terraform configuration for `tendermatch` repository
+   - Updated deploy script with automatic repository creation
+   - Created setup guide with multiple deployment options
+4. 🚀 **DEPLOY TO GOOGLE CLOUD** - Use one of three methods:
+   - `PROJECT_ID=tenderai-469603 ./deploy.sh` (Recommended - automatic)
+   - Manual gcloud commands (see ARTIFACT_REGISTRY_SETUP.md)
+   - Terraform apply with project_id=tenderai-469603
+5. Ask user permission for frontend testing after successful deployment
 
 ## Agent Communication
 - **Testing Agent**: Backend API testing completed successfully. All 19 endpoints tested with 100% pass rate. API structure, response formats, and error handling are working correctly. Firestore authentication issue is expected in local environment and will resolve in Cloud Run deployment.
