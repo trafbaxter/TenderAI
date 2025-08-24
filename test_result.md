@@ -158,23 +158,19 @@ gcloud builds submit --config=cloudbuild.yaml --project=tenderai-469603
 6. 🚀 **DEPLOYMENT READY** - All components verified, ready for cloud deployment
 7. Ask user permission for frontend testing after successful deployment
 
-## Phase 4: Docker Bracket Expansion Issue (Current)
-**Build Context Verification**: ✅ Confirmed `yarn.lock NOT FOUND` in Cloud Build
-**Docker Error**: ❌ `COPY failed: no source files were specified` for `yarn.loc[k]` pattern
+## Phase 4: Dockerfile Caching Issue (Current)
+**Issue**: Docker still shows `Step 4/12 : COPY yarn.loc[k] ./` despite Dockerfile update
+**Evidence**: Build logs show 12-step Dockerfile but local Dockerfile only has 8-9 steps
 
-**Root Cause Analysis**:
-- ✅ `package.json`: Available (954 bytes) 
-- ❌ `yarn.lock`: Consistently missing from Cloud Build context (exists locally: 456KB)
-- ❌ Docker bracket expansion `yarn.loc[k]` not working in Cloud Build environment
+**Analysis**:
+- ✅ Local Dockerfile: Updated to npm-only approach (verified)
+- ❌ Cloud Build Context: Still using cached/old Dockerfile with yarn.loc[k] 
+- ❌ Step Count: Shows 12 steps instead of expected 8-9 steps
 
-**Final Solution Applied**:
-✅ **Simplified Dockerfile**: Removed yarn.lock dependency entirely, using `npm ci` instead
-- More reliable than complex conditional logic
-- `npm ci` works with just `package.json` (uses package-lock.json if available)
-- Functionally equivalent for building React applications
-- Eliminates all yarn.lock related issues
+**Root Cause**: Cloud Build context upload may not be picking up the updated Dockerfile
+**Solution**: Enhanced verification to check Dockerfile contents in Cloud Build context
 
-**Status**: READY FOR FINAL RETRY - Dockerfile now uses npm-only approach
+**Status**: INVESTIGATING - Added Dockerfile content verification to cloudbuild.yaml
 
 ## Agent Communication
 - **Backend Testing Agent**: ✅ Backend API testing completed successfully. All 19 endpoints tested with 100% pass rate. API structure, response formats, and error handling are working correctly. Firestore authentication issue is expected in local environment and will resolve in Cloud Run deployment.

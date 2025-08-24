@@ -6,7 +6,7 @@ WORKDIR /app
 # Copy package files
 COPY package.json ./
 
-# Install dependencies using npm (since yarn.lock is not available in Cloud Build)
+# Install dependencies using npm (since yarn.lock is not available in Cloud Build)  
 RUN npm ci
 
 # Copy source code

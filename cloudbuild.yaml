@@ -17,6 +17,10 @@ steps:
         ls -la frontend/yarn.lock || echo "yarn.lock NOT FOUND"
         echo "=== Checking for any lock files ==="
         find . -name "*lock*" -type f || echo "No lock files found"
+        echo "=== Frontend Dockerfile Contents (first 10 lines) ==="
+        head -10 frontend/Dockerfile || echo "Dockerfile NOT FOUND"
+        echo "=== Searching for yarn.loc in Dockerfile ==="
+        grep -n "yarn.loc" frontend/Dockerfile || echo "No yarn.loc found"
         echo "=== End Verification ==="
     id: 'verify-context'
 
