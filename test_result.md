@@ -158,23 +158,24 @@ gcloud builds submit --config=cloudbuild.yaml --project=tenderai-469603
 6. 🚀 **DEPLOYMENT READY** - All components verified, ready for cloud deployment
 7. Ask user permission for frontend testing after successful deployment
 
-## Phase 3: Cloud Build Context Fix (Latest)
-**Root Cause**: Cloud Build context upload problem - `package.json` not found in build context
-**Error**: `COPY failed: file not found in build context or excluded by .dockerignore: stat package.json: file does not exist`
+## Phase 3: yarn.lock Missing Issue (Current)
+**Progress**: ✅ `package.json` now found in Cloud Build context (previous fix worked!)
+**New Issue**: ❌ `yarn.lock` not available in Cloud Build context
 
-**Investigation Results**:
-- ✅ Backend builds successfully (30.7kB context, all dependencies installed)
-- ❌ Frontend fails at `COPY package.json ./` step
-- ✅ Local files exist: `/app/frontend/package.json` and `/app/frontend/yarn.lock`
-- ❌ Cloud Build context missing frontend files during upload
+**Build Context Verification Shows**:
+- ✅ `package.json`: Available (954 bytes)
+- ❌ `yarn.lock`: Missing (exists locally: 456.9KB)
+- ✅ Other files: All present (Dockerfile, nginx.conf, etc.)
 
 **Fixes Applied**:
-1. ✅ **Created `.gcloudignore`**: Exclude unnecessary files, ensure essential files are uploaded
-2. ✅ **Updated deploy.sh**: Added explicit source directory (`. --project="$PROJECT_ID"`)
-3. ✅ **Enhanced cloudbuild.yaml**: Added build context verification step for debugging
-4. ✅ **Fixed wait conditions**: Proper step dependencies in build pipeline
+1. ✅ **Enhanced `.gcloudignore`**: Added explicit inclusion of essential files
+2. ✅ **Modified Dockerfile**: Made `yarn.lock` optional with fallback to npm
+3. ✅ **Enhanced verification**: Added detailed lock file checking
 
-**Status**: READY FOR RETRY - Cloud Build context issues resolved
+**Root Cause**: Cloud Build upload process may be selectively excluding large lock files
+**Solution**: Dockerfile now handles missing `yarn.lock` gracefully with npm fallback
+
+**Status**: READY FOR RETRY - Frontend should now build with or without yarn.lock
 
 ## Agent Communication
 - **Backend Testing Agent**: ✅ Backend API testing completed successfully. All 19 endpoints tested with 100% pass rate. API structure, response formats, and error handling are working correctly. Firestore authentication issue is expected in local environment and will resolve in Cloud Run deployment.
