@@ -109,6 +109,11 @@ output "project_id" {
   value       = var.project_id
 }
 
+output "artifact_registry_repository" {
+  description = "Artifact Registry repository name"
+  value       = google_artifact_registry_repository.tendermatch_repo.name
+}
+
 output "firestore_database" {
   description = "Firestore database name"
   value       = google_firestore_database.database.name
