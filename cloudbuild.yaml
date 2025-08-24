@@ -1,5 +1,21 @@
 # Google Cloud Build configuration for TenderMatch AI
 steps:
+  # Verify build context
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "=== Build Context Verification ==="
+        pwd
+        ls -la
+        echo "=== Frontend Directory Contents ==="
+        ls -la frontend/
+        echo "=== Checking for package.json ==="
+        ls -la frontend/package.json || echo "package.json NOT FOUND"
+        echo "=== End Verification ==="
+    id: 'verify-context'
+
   # Build backend Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -10,6 +26,7 @@ steps:
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/backend:latest'
       - './backend'
     id: 'build-backend'
+    waitFor: ['verify-context']
 
   # Build frontend Docker image
   - name: 'gcr.io/cloud-builders/docker'
@@ -21,6 +38,7 @@ steps:
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:latest'
       - './frontend'
     id: 'build-frontend'
+    waitFor: ['verify-context']
 
   # Push backend image
   - name: 'gcr.io/cloud-builders/docker'
