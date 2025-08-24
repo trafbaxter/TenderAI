@@ -38,6 +38,7 @@ steps:
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/tendermatch/frontend:latest'
       - './frontend'
     id: 'build-frontend'
+    waitFor: ['verify-context']
 
   # Push backend image
   - name: 'gcr.io/cloud-builders/docker'
