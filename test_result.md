@@ -158,24 +158,23 @@ gcloud builds submit --config=cloudbuild.yaml --project=tenderai-469603
 6. 🚀 **DEPLOYMENT READY** - All components verified, ready for cloud deployment
 7. Ask user permission for frontend testing after successful deployment
 
-## Phase 3: yarn.lock Missing Issue (Current)
-**Progress**: ✅ `package.json` now found in Cloud Build context (previous fix worked!)
-**New Issue**: ❌ `yarn.lock` not available in Cloud Build context
+## Phase 4: Docker Bracket Expansion Issue (Current)
+**Build Context Verification**: ✅ Confirmed `yarn.lock NOT FOUND` in Cloud Build
+**Docker Error**: ❌ `COPY failed: no source files were specified` for `yarn.loc[k]` pattern
 
-**Build Context Verification Shows**:
-- ✅ `package.json`: Available (954 bytes)
-- ❌ `yarn.lock`: Missing (exists locally: 456.9KB)
-- ✅ Other files: All present (Dockerfile, nginx.conf, etc.)
+**Root Cause Analysis**:
+- ✅ `package.json`: Available (954 bytes) 
+- ❌ `yarn.lock`: Consistently missing from Cloud Build context (exists locally: 456KB)
+- ❌ Docker bracket expansion `yarn.loc[k]` not working in Cloud Build environment
 
-**Fixes Applied**:
-1. ✅ **Enhanced `.gcloudignore`**: Added explicit inclusion of essential files
-2. ✅ **Modified Dockerfile**: Made `yarn.lock` optional with fallback to npm
-3. ✅ **Enhanced verification**: Added detailed lock file checking
+**Final Solution Applied**:
+✅ **Simplified Dockerfile**: Removed yarn.lock dependency entirely, using `npm ci` instead
+- More reliable than complex conditional logic
+- `npm ci` works with just `package.json` (uses package-lock.json if available)
+- Functionally equivalent for building React applications
+- Eliminates all yarn.lock related issues
 
-**Root Cause**: Cloud Build upload process may be selectively excluding large lock files
-**Solution**: Dockerfile now handles missing `yarn.lock` gracefully with npm fallback
-
-**Status**: READY FOR RETRY - Frontend should now build with or without yarn.lock
+**Status**: READY FOR FINAL RETRY - Dockerfile now uses npm-only approach
 
 ## Agent Communication
 - **Backend Testing Agent**: ✅ Backend API testing completed successfully. All 19 endpoints tested with 100% pass rate. API structure, response formats, and error handling are working correctly. Firestore authentication issue is expected in local environment and will resolve in Cloud Run deployment.
