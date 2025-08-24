@@ -18,10 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Set default PORT environment variable (Cloud Run will override this)
-ENV PORT=8080
-
-# Expose port
+# Expose port (PORT will be set automatically by Cloud Run)
 EXPOSE 8080
 
 # Command to run the application  
