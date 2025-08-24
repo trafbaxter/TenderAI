@@ -5,16 +5,28 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json ./
-COPY yarn.lock ./
 
-# Install dependencies
-RUN yarn install --frozen-lockfile
+# Copy yarn.lock if it exists, otherwise this step will be skipped
+COPY yarn.loc[k] ./
+
+# Install dependencies - use yarn if yarn.lock exists, otherwise use npm
+RUN if [ -f yarn.lock ]; then \
+      echo "Using yarn with yarn.lock" && \
+      yarn install --frozen-lockfile; \
+    else \
+      echo "Using npm (no yarn.lock found)" && \
+      npm ci; \
+    fi
 
 # Copy source code
 COPY . .
 
-# Build the application
-RUN yarn build
+# Build the application - use same package manager as install
+RUN if [ -f yarn.lock ]; then \
+      yarn build; \
+    else \
+      npm run build; \
+    fi
 
 # Production stage
 FROM nginx:alpine
