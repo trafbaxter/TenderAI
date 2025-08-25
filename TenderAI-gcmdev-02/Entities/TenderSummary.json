@@ -1,0 +1,50 @@
+{
+  "name": "TenderSummary",
+  "type": "object",
+  "properties": {
+    "tender_id": {
+      "type": "string",
+      "description": "Reference to tender"
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "AI-generated executive summary"
+    },
+    "key_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Extracted key requirements"
+    },
+    "technology_stack": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required technologies"
+    },
+    "estimated_effort": {
+      "type": "string",
+      "description": "AI estimated effort"
+    },
+    "risk_assessment": {
+      "type": "string",
+      "description": "Risk analysis"
+    },
+    "recommended_approach": {
+      "type": "string",
+      "description": "AI recommended approach"
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Compliance and regulatory requirements"
+    }
+  },
+  "required": [
+    "tender_id"
+  ]
+}

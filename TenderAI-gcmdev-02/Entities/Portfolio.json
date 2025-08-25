@@ -1,0 +1,64 @@
+{
+  "name": "Portfolio",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Project or service title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the capability or project"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "construction",
+        "consulting",
+        "technology",
+        "healthcare",
+        "education",
+        "manufacturing",
+        "services",
+        "research",
+        "logistics",
+        "other"
+      ],
+      "description": "Business category"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Relevant keywords and skills"
+    },
+    "project_value": {
+      "type": "number",
+      "description": "Project value in USD"
+    },
+    "completion_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When the project was completed"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Client or organization name"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "ongoing"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "category"
+  ]
+}

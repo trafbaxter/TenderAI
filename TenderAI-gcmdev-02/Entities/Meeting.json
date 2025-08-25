@@ -1,0 +1,68 @@
+{
+  "name": "Meeting",
+  "type": "object",
+  "properties": {
+    "tender_id": {
+      "type": "string",
+      "description": "Related tender ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Meeting title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Meeting description"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Meeting start time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Meeting end time"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "zoom",
+        "teams",
+        "google_meet",
+        "webex"
+      ],
+      "description": "Meeting platform"
+    },
+    "meeting_url": {
+      "type": "string",
+      "description": "Meeting URL/link"
+    },
+    "attendees": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attendee email addresses"
+    },
+    "agenda": {
+      "type": "string",
+      "description": "Meeting agenda"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ],
+      "default": "scheduled"
+    }
+  },
+  "required": [
+    "title",
+    "start_time",
+    "end_time"
+  ]
+}

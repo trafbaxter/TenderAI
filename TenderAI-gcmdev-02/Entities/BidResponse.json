@@ -1,0 +1,64 @@
+{
+  "name": "BidResponse",
+  "type": "object",
+  "properties": {
+    "tender_id": {
+      "type": "string",
+      "description": "Reference to tender"
+    },
+    "response_title": {
+      "type": "string",
+      "description": "Bid response title"
+    },
+    "executive_summary": {
+      "type": "string",
+      "description": "Executive summary of the bid"
+    },
+    "technical_approach": {
+      "type": "string",
+      "description": "Technical approach and methodology"
+    },
+    "timeline": {
+      "type": "string",
+      "description": "Project timeline"
+    },
+    "budget_breakdown": {
+      "type": "object",
+      "description": "Detailed budget breakdown"
+    },
+    "team_composition": {
+      "type": "string",
+      "description": "Proposed team structure"
+    },
+    "risk_mitigation": {
+      "type": "string",
+      "description": "Risk mitigation strategies"
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Project deliverables"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "review",
+        "submitted",
+        "won",
+        "lost"
+      ],
+      "default": "draft"
+    },
+    "ai_confidence_score": {
+      "type": "number",
+      "description": "AI confidence in bid quality (0-100)"
+    }
+  },
+  "required": [
+    "tender_id",
+    "response_title"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "Integration",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Integration name"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "database",
+        "ai_model",
+        "communication",
+        "calendar",
+        "meeting",
+        "project_management",
+        "email"
+      ],
+      "description": "Integration type"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Service provider name"
+    },
+    "config": {
+      "type": "object",
+      "description": "Integration configuration"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "error",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last synchronization time"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "provider"
+  ]
+}

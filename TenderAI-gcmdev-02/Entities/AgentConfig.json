@@ -1,0 +1,51 @@
+{
+  "name": "AgentConfig",
+  "type": "object",
+  "properties": {
+    "search_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords to search for in tenders"
+    },
+    "preferred_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Preferred tender categories"
+    },
+    "min_budget": {
+      "type": "number",
+      "description": "Minimum project budget to consider"
+    },
+    "max_budget": {
+      "type": "number",
+      "description": "Maximum project budget to consider"
+    },
+    "preferred_locations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Preferred project locations"
+    },
+    "scraping_frequency": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "weekly",
+        "bi-weekly"
+      ],
+      "default": "daily",
+      "description": "How often to check for new tenders"
+    },
+    "minimum_match_score": {
+      "type": "number",
+      "default": 70,
+      "description": "Minimum match score to show tender (0-100)"
+    }
+  },
+  "required": []
+}

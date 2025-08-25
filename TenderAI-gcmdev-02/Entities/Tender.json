@@ -1,0 +1,76 @@
+{
+  "name": "Tender",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Tender title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Tender description and requirements"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Issuing organization"
+    },
+    "category": {
+      "type": "string",
+      "description": "Tender category"
+    },
+    "budget_min": {
+      "type": "number",
+      "description": "Minimum budget"
+    },
+    "budget_max": {
+      "type": "number",
+      "description": "Maximum budget"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Submission deadline"
+    },
+    "location": {
+      "type": "string",
+      "description": "Project location"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key requirements"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Original tender URL"
+    },
+    "match_score": {
+      "type": "number",
+      "description": "AI calculated match score (0-100)"
+    },
+    "matched_portfolio_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of matching portfolio items"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "interested",
+        "applied",
+        "closed"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "organization"
+  ]
+}

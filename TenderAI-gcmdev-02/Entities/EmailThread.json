@@ -1,0 +1,63 @@
+{
+  "name": "EmailThread",
+  "type": "object",
+  "properties": {
+    "tender_id": {
+      "type": "string",
+      "description": "Related tender ID"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Email subject"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Sender email"
+    },
+    "to_email": {
+      "type": "string",
+      "description": "Recipient email"
+    },
+    "content": {
+      "type": "string",
+      "description": "Email content"
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated summary"
+    },
+    "suggested_response": {
+      "type": "string",
+      "description": "AI-suggested response"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "unread",
+        "read",
+        "responded",
+        "archived"
+      ],
+      "default": "unread"
+    },
+    "action_required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "subject",
+    "from_email",
+    "content"
+  ]
+}
