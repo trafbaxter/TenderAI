@@ -40,7 +40,7 @@ pids
 
 # Service account keys
 service-account-key.json
-*.json
+*service-account*.json
 
 # Terraform
 *.tfstate
