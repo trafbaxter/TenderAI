@@ -1,96 +1,65 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bot, Clock, CheckCircle, Search, Zap } from "lucide-react";
+import { Bot, Zap, Clock, CheckCircle } from "lucide-react";
 
 export default function AgentActivity() {
   const activities = [
     {
-      id: 1,
-      type: "scan",
-      message: "Scanned 247 new tenders from government portals",
-      timestamp: "2 minutes ago",
-      status: "completed"
+      action: "Scanned 45 new tenders",
+      time: "2 hours ago",
+      status: "completed",
+      icon: CheckCircle
     },
     {
-      id: 2,
-      type: "match",
-      message: "Found 12 new high-match opportunities",
-      timestamp: "15 minutes ago",
-      status: "completed"
+      action: "Found 3 high-match opportunities",
+      time: "2 hours ago", 
+      status: "completed",
+      icon: Zap
     },
     {
-      id: 3,
-      type: "analysis",
-      message: "Analyzing technical requirements for healthcare tender",
-      timestamp: "1 hour ago",
-      status: "in_progress"
-    },
-    {
-      id: 4,
-      type: "notification",
-      message: "Deadline alert sent for 3 upcoming submissions",
-      timestamp: "2 hours ago",
-      status: "completed"
+      action: "Next scan scheduled",
+      time: "In 6 hours",
+      status: "pending",
+      icon: Clock
     }
   ];
 
-  const getActivityIcon = (type) => {
-    switch (type) {
-      case 'scan': return <Search className="w-4 h-4" />;
-      case 'match': return <Zap className="w-4 h-4" />;
-      case 'analysis': return <Bot className="w-4 h-4" />;
-      default: return <CheckCircle className="w-4 h-4" />;
-    }
-  };
-
-  const getActivityColor = (type) => {
-    switch (type) {
-      case 'scan': return 'text-blue-600';
-      case 'match': return 'text-amber-600';
-      case 'analysis': return 'text-purple-600';
-      default: return 'text-green-600';
-    }
-  };
-
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-slate-200">
-        <CardTitle className="flex items-center gap-2">
-          <Bot className="w-5 h-5 text-blue-600" />
+    <Card className="overflow-hidden bg-white/80 backdrop-blur-sm border-0 shadow-lg shadow-slate-200/50">
+      <CardHeader className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200">
+        <CardTitle className="flex items-center gap-2 text-slate-800">
+          <Bot className="w-5 h-5" />
           Agent Activity
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-4">
-          {activities.map((activity) => (
-            <div key={activity.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50/50 transition-colors">
-              <div className={`p-2 rounded-full bg-slate-100 ${getActivityColor(activity.type)}`}>
-                {getActivityIcon(activity.type)}
+          {activities.map((activity, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                activity.status === 'completed' 
+                  ? 'bg-green-100 text-green-600' 
+                  : 'bg-amber-100 text-amber-600'
+              }`}>
+                <activity.icon className="w-4 h-4" />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                  {activity.message}
-                </p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs text-slate-500 flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    {activity.timestamp}
-                  </span>
-                  <Badge 
-                    variant={activity.status === 'completed' ? 'default' : 'secondary'}
-                    className={activity.status === 'completed' 
-                      ? 'bg-green-100 text-green-800 border-green-200' 
-                      : 'bg-amber-100 text-amber-800 border-amber-200'
-                    }
-                  >
-                    {activity.status === 'completed' && <CheckCircle className="w-3 h-3 mr-1" />}
-                    {activity.status === 'completed' ? 'Done' : 'In Progress'}
-                  </Badge>
-                </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-800">{activity.action}</p>
+                <p className="text-xs text-slate-500">{activity.time}</p>
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100">
+          <div className="flex items-center gap-2 mb-2">
+            <Badge className="bg-green-500 text-white">Active</Badge>
+            <span className="text-sm font-medium text-blue-800">Agent Status</span>
+          </div>
+          <p className="text-xs text-blue-700">
+            Monitoring 12 bidding sites • Daily scans enabled
+          </p>
         </div>
       </CardContent>
     </Card>
