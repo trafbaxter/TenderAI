@@ -40,7 +40,7 @@ pids
 
 # Service account keys
 service-account-key.json
-*.json
+*service-account*.json
 
 # Terraform
 *.tfstate
@@ -54,3 +54,13 @@ cloudbuild.yaml.bak
 # Temporary files
 tmp/
 temp/
+deployment.log
+nohup.out
+
+# Google Cloud SDK (install locally when needed)
+google-cloud-sdk/
+google-cloud-cli-*.tar.gz-e 
+# Large files (install locally when needed)
+google-cloud-sdk/
+google-cloud-cli-*.tar.gz
+*.tar.gz
