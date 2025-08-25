@@ -1,0 +1,47 @@
+# Google Cloud Build configuration for TenderAI Frontend
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', 'gcr.io/$PROJECT_ID/tenderai-frontend:$BUILD_ID',
+      '-t', 'gcr.io/$PROJECT_ID/tenderai-frontend:latest',
+      '.'
+    ]
+
+  # Push the image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/tenderai-frontend:$BUILD_ID']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/tenderai-frontend:latest']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run', 'deploy', 'tenderai-frontend',
+      '--image', 'gcr.io/$PROJECT_ID/tenderai-frontend:$BUILD_ID',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--port', '8080',
+      '--memory', '512Mi',
+      '--cpu', '1',
+      '--max-instances', '10',
+      '--min-instances', '0',
+      '--concurrency', '80',
+      '--timeout', '300',
+      '--set-env-vars', 'NODE_ENV=production'
+    ]
+
+# Store images in Google Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/tenderai-frontend:$BUILD_ID'
+  - 'gcr.io/$PROJECT_ID/tenderai-frontend:latest'
+
+# Build configuration
+options:
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: '100'
+  
+timeout: '1200s'
