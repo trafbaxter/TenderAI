@@ -141,8 +141,8 @@ services:
   # TenderAI React Frontend (keep existing configuration)
   tenderai-frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
     container_name: tenderai-frontend
     restart: unless-stopped
     ports:
