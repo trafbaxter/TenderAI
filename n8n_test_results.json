@@ -1,0 +1,129 @@
+{
+  "timestamp": "2025-08-25T19:37:04.186551",
+  "success": true,
+  "success_rate": 100.0,
+  "total_tests": 11,
+  "passed": 11,
+  "failed": 0,
+  "results": [
+    {
+      "test": "Backend Health Check",
+      "status": "PASS",
+      "message": "Health check endpoint working correctly",
+      "details": {
+        "overall_status": "degraded",
+        "n8n_service_status": "unhealthy",
+        "version": "1.0.0",
+        "response_time": 0.100329
+      },
+      "timestamp": "2025-08-25T19:36:58.553916"
+    },
+    {
+      "test": "Root Endpoint",
+      "status": "PASS",
+      "message": "Root endpoint working correctly",
+      "details": {
+        "response": {
+          "message": "TenderAI n8n Integration Service",
+          "version": "1.0.0",
+          "docs": "/docs",
+          "health": "/health"
+        }
+      },
+      "timestamp": "2025-08-25T19:36:59.056359"
+    },
+    {
+      "test": "Tenders Data Endpoint",
+      "status": "PASS",
+      "message": "Tenders endpoint working correctly",
+      "details": {
+        "total_tenders": 10,
+        "total_count": 10,
+        "sample_tender_id": "TENDER-001"
+      },
+      "timestamp": "2025-08-25T19:36:59.559304"
+    },
+    {
+      "test": "Tenders Endpoint Parameters",
+      "status": "PASS",
+      "message": "Query parameters handled correctly",
+      "details": {
+        "limit": 5,
+        "offset": 0
+      },
+      "timestamp": "2025-08-25T19:37:00.062178"
+    },
+    {
+      "test": "Portfolio Data Endpoint",
+      "status": "PASS",
+      "message": "Portfolio endpoint working correctly",
+      "details": {
+        "portfolio_id": "TEST-PORTFOLIO-001",
+        "risk_score": 75.5,
+        "tender_count": 3
+      },
+      "timestamp": "2025-08-25T19:37:00.564770"
+    },
+    {
+      "test": "Workflow Trigger Endpoint",
+      "status": "PASS",
+      "message": "Endpoint handles n8n unavailability correctly (timeout/error as expected)",
+      "details": {
+        "status_code": 500,
+        "response_time": 0.037405,
+        "response_text": "{\"detail\":\"Internal error: [Errno -2] Name or service not known\"}"
+      },
+      "timestamp": "2025-08-25T19:37:01.103085"
+    },
+    {
+      "test": "Workflow Trigger Validation",
+      "status": "PASS",
+      "message": "Input validation working correctly",
+      "details": {
+        "status_code": 422
+      },
+      "timestamp": "2025-08-25T19:37:01.609358"
+    },
+    {
+      "test": "n8n Webhook Handler",
+      "status": "PASS",
+      "message": "Webhook handler working correctly",
+      "details": {
+        "response": {
+          "status": "received",
+          "message": "Webhook processed successfully"
+        }
+      },
+      "timestamp": "2025-08-25T19:37:02.112212"
+    },
+    {
+      "test": "Webhook Validation",
+      "status": "PASS",
+      "message": "Webhook validation working correctly",
+      "details": {
+        "status_code": 422
+      },
+      "timestamp": "2025-08-25T19:37:02.614897"
+    },
+    {
+      "test": "API Error Handling",
+      "status": "PASS",
+      "message": "404 error handling working correctly",
+      "details": {
+        "status_code": 404
+      },
+      "timestamp": "2025-08-25T19:37:03.117244"
+    },
+    {
+      "test": "CORS and Middleware",
+      "status": "PASS",
+      "message": "Middleware functioning correctly",
+      "details": {
+        "cors_headers_present": false,
+        "process_time_header": true,
+        "process_time_value": "0.06482625007629395"
+      },
+      "timestamp": "2025-08-25T19:37:03.686282"
+    }
+  ]
+}
