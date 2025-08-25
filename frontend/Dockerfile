@@ -8,13 +8,13 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY frontend/package.json frontend/yarn.lock* ./
+COPY package.json yarn.lock* ./
 
 # Install dependencies with yarn  
 RUN yarn install --frozen-lockfile --production=false
 
 # Copy source code
-COPY frontend/ .
+COPY . .
 
 # Build the application
 RUN yarn build
