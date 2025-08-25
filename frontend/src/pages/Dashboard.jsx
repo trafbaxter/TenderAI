@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 
-import StatsGrid from "../components/dashboard/StatsGrid";
-import RecentMatches from "../components/dashboard/RecentMatches";
-import AgentActivity from "../components/dashboard/AgentActivity";
+import StatsGrid from "../components/dashboard/StatsGrid.jsx";
+import RecentMatches from "../components/dashboard/RecentMatches.jsx";
+import AgentActivity from "../components/dashboard/AgentActivity.jsx";
 
 export default function Dashboard() {
   const [tenders, setTenders] = useState([]);
