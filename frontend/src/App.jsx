@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './pages/Layout';
-import Dashboard from './pages/Dashboard';
-import Opportunities from './pages/Opportunities';
-import Portfolio from './pages/Portfolio';
-import TenderAnalysis from './pages/TenderAnalysis';
-import Integrations from './pages/Integrations';
+import Layout from './pages/Layout.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Opportunities from './pages/Opportunities.jsx';
+import Portfolio from './pages/Portfolio.jsx';
+import TenderAnalysis from './pages/TenderAnalysis.jsx';
+import Integrations from './pages/Integrations.jsx';
 
 function App() {
   return (
