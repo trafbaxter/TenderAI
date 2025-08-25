@@ -1,0 +1,96 @@
+{
+  "name": "Tender Analysis Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tender-analysis"
+      },
+      "id": "webhook-tender",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "tender_id",
+              "value": "={{ $json.data.tender_id }}"
+            },
+            {
+              "name": "analysis_score",
+              "value": "85.5"
+            },
+            {
+              "name": "status",
+              "value": "analyzed"
+            }
+          ],
+          "array": [
+            {
+              "name": "recommendations",
+              "value": [
+                "Apply for this tender - high compatibility",
+                "Request additional information on technical requirements",
+                "Form partnership for better coverage"
+              ]
+            }
+          ]
+        }
+      },
+      "id": "analysis-logic",
+      "name": "Tender Analysis Logic",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://tenderai-api:8000/api/n8n-webhook",
+        "options": {
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"event_type\": \"tender_analysis_complete\",\n  \"workflow_id\": \"{{ $workflow.id }}\",\n  \"execution_id\": \"{{ $execution.id }}\",\n  \"status\": \"success\",\n  \"result_data\": {\n    \"tender_id\": \"{{ $json.tender_id }}\",\n    \"score\": {{ $json.analysis_score }},\n    \"recommendations\": {{ $json.recommendations }}\n  }\n}"
+      },
+      "id": "callback-api",
+      "name": "Callback to TenderAI API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Tender Analysis Logic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tender Analysis Logic": {
+      "main": [
+        [
+          {
+            "node": "Callback to TenderAI API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1"
+}
