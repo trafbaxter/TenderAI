@@ -59,4 +59,8 @@ nohup.out
 
 # Google Cloud SDK (install locally when needed)
 google-cloud-sdk/
+google-cloud-cli-*.tar.gz-e 
+# Large files (install locally when needed)
+google-cloud-sdk/
 google-cloud-cli-*.tar.gz
+*.tar.gz
