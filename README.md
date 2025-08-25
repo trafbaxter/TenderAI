@@ -183,3 +183,21 @@ For deployment issues or questions:
 ---
 
 **Note**: This frontend is designed to work with a backend API. Update the API endpoints in the entity classes when connecting to your backend services.
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+#### Dockerfile Parse Error
+If you encounter `unknown instruction: SERVER` error, ensure you're using the corrected Dockerfile that properly copies the nginx.conf file instead of using heredoc syntax.
+
+#### Build Verification
+Run the verification script to check all components:
+```bash
+./verify-build.sh
+```
+
+#### Cloud Build Failures
+- Verify all required files are present: `Dockerfile`, `nginx.conf`, `frontend/package.json`
+- Check that the build completes locally first
+- Ensure the GitHub repository has the latest changes committed
